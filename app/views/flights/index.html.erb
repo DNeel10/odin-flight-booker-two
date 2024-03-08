@@ -7,12 +7,17 @@
   <%= f.label :arrival_airport, "Arriving at: " %>
   <%= f.select(:arrival_airport, @airport_options) %>
 
-  <%= f.label :departure_time, "Departure Time: " %>
-  <%= f.select(:departure_time, @date_options) %>
+  <%= f.label :departure_date, "Departure Date: " %>
+  <%= f.select(:departure_date, @date_options) %>
 
   <%= f.label :num_passengers, "Passengers: " %>
   <%= f.select(:num_passengers, (1..8).map { |i| [i, i] }, ) %>
 
-  <%= f.submit %>
+  <%= f.submit "Search", :name => nil %>
 <% end %>
+
+<div>
+<% @flights.each do |flight| %>
+
+</div>
 
