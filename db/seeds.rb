@@ -7,6 +7,8 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Airport.delete_all
+puts "Deleting all Airports and creating a new set"
 
 codes = %w(BWI IAD PHX LIT LAX SAN 
            SMF COS DEN BDL FLL MIA 
@@ -20,6 +22,17 @@ codes = %w(BWI IAD PHX LIT LAX SAN
            MEM BNA HOU DFW SAT SLC 
            BTV RIC SEA CRW GRB MKE 
            JAC CYS)
+airports = []
+
 codes.each do |code|
-  Airport.create(code: code)
+  airports << Airport.create({code: code})
 end
+
+Flight.delete_all
+puts "Deleting all flights and creating a new set"
+
+1000.times do |i|
+  Flight.create([{departure_airport: airports.shuffle.pop , arrival_airport: airports.shuffle.pop, departure_time: DateTime.now + rand(1..30).days.from_now.day, duration: rand(90..360)}])
+  puts("created Flight #{i}")
+end
+
