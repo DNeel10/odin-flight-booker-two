@@ -32,7 +32,7 @@ Flight.delete_all
 puts "Deleting all flights and creating a new set"
 
 1000.times do |i|
-  Flight.create([{departure_airport: airports.shuffle.pop , arrival_airport: airports.shuffle.pop, departure_time: DateTime.now + rand(1..30).days.from_now.day, duration: rand(90..360)}])
+  Flight.create([{departure_airport: airports.shuffle.pop , arrival_airport: airports.shuffle.pop, departure_date: DateTime.now + rand(1..30).days, duration: rand(90..360)}])
   puts("created Flight #{i}")
 end
 

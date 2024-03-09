@@ -14,10 +14,16 @@
   <%= f.select(:num_passengers, (1..8).map { |i| [i, i] }, ) %>
 
   <%= f.submit "Search", :name => nil %>
-<% end %>
+<% end %><br>
+
+<h3>SQL Query:</h3><br>
 
 <div>
-<% @flights.each do |flight| %>
+  <%= @flights.to_sql %>
+</div><br>
+<div>
+  <% @flights.each do |flight| %>
+    <p><%= flight.id %></p>
+    <p>Departing From: <%= flight.departure_airport.code %></p>
 
-</div>
-
+  <% end %>
