@@ -2,13 +2,13 @@
 
 <%= form_with url: '/flights', method: 'get' do |f| %>
   <%= f.label :departure_airport, "Departing From: " %>
-  <%= f.select(:departure_airport, @airport_options) %>
+  <%= f.select(:departure_airport, @airport_options, :selected => params[:departure_airport]) %>
 
   <%= f.label :arrival_airport, "Arriving at: " %>
-  <%= f.select(:arrival_airport, @airport_options) %>
+  <%= f.select(:arrival_airport, @airport_options, :selected => params[:arrival_airport]) %>
 
   <%= f.label :departure_date, "Departure Date: " %>
-  <%= f.select(:departure_date, @date_options) %>
+  <%= f.select(:departure_date, @date_options, :selected => params[:departure_date]) %>
 
   <%= f.label :num_passengers, "Passengers: " %>
   <%= f.select(:num_passengers, (1..8).map { |i| [i, i] }, ) %>
@@ -16,14 +16,32 @@
   <%= f.submit "Search", :name => nil %>
 <% end %><br>
 
-<h3>SQL Query:</h3><br>
+<h2>Available Flights</h2>
 
-<div>
-  <%= @flights.to_sql %>
-</div><br>
-<div>
-  <% @flights.each do |flight| %>
-    <p><%= flight.id %></p>
-    <p>Departing From: <%= flight.departure_airport.code %></p>
-
+<%= form_with url: new_booking_path do  |b| %>
+  <table>
+    <tr>
+      <th>Select</th>
+      <th>Flight Number</th>
+      <th>Departure Airport</th>
+      <th>Arrival Airport</th>
+      <th>Departure Date</th>
+    </tr>
+    <% @flights.each do |flight| %>
+      <tr>
+        <td><%= b.radio_button(:flight, flight.id) %></td>
+        <td><%= flight.id %></td>
+        <td><%= flight.departure_airport.code %></td>
+        <td><%= flight.arrival_airport.code %></td>
+        <td><%= flight.flight_date_formatted %></td>
+      </tr>
+    <% end %>
+  </table>
+  <% unless @flights.empty? %>
+    <%= f.submit "Book Flight" %>
   <% end %>
+<% end %>
+
+
+
+  
