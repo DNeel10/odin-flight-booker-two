@@ -3,15 +3,17 @@
 <%= form_for @booking do |f| %>
   <%= f.hidden_field :flight_id, value: params[:flight_id] %>
 
-  <%= f.fields_for :passenger do |p| %>
-    <%= p.label :firstname, "First Name: " %>
-    <%= p.text_field :firstname %>
+  <%= f.fields_for :passengers do |p| %>
+    <div>
+      <%= p.label :firstname, "First Name: " %>
+      <%= p.text_field :firstname %>
 
-    <%= p.label :lastname, "Last Name: " %>
-    <%= p.text_field :lastname %>
+      <%= p.label :lastname, "Last Name: " %>
+      <%= p.text_field :lastname %>
 
-    <%= p.label :email, "Email Address: " %>
-    <%= p.email_field :email %>
+      <%= p.label :email, "Email Address: " %>
+      <%= p.email_field :email %>
+    </div>
   <% end %>
 
   <%= f.submit "Create Booking" %>
