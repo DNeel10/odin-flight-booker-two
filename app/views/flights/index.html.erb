@@ -11,14 +11,15 @@
   <%= f.select(:departure_date, @date_options, :selected => params[:departure_date]) %>
 
   <%= f.label :num_passengers, "Passengers: " %>
-  <%= f.select(:num_passengers, (1..8).map { |i| [i, i] }, ) %>
+  <%= f.select(:num_passengers, (1..8).map { |i| [i, i] }, :selected => params[:num_passengers]) %>
 
   <%= f.submit "Search", :name => nil %>
 <% end %><br>
 
 <h2>Available Flights</h2>
 
-<%= form_with url: new_booking_path do  |b| %>
+<%= form_with url: new_booking_path, method: 'get' do |b| %>
+  <%= b.hidden_field(:num_passengers, value: params[:num_passengers]) %>
   <table>
     <tr>
       <th>Select</th>
@@ -29,7 +30,7 @@
     </tr>
     <% @flights.each do |flight| %>
       <tr>
-        <td><%= b.radio_button(:flight, flight.id) %></td>
+        <td><%= b.radio_button(:flight_id, flight.id) %></td>
         <td><%= flight.id %></td>
         <td><%= flight.departure_airport.code %></td>
         <td><%= flight.arrival_airport.code %></td>
@@ -38,7 +39,7 @@
     <% end %>
   </table>
   <% unless @flights.empty? %>
-    <%= f.submit "Book Flight" %>
+    <%= b.submit "Book Flight" %>
   <% end %>
 <% end %>
 

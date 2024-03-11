@@ -1,0 +1,18 @@
+<h1>New Booking</h1>
+
+<%= form_for @booking do |f| %>
+  <%= f.hidden_field :flight_id, value: params[:flight_id] %>
+
+  <%= f.fields_for :passenger do |p| %>
+    <%= p.label :firstname, "First Name: " %>
+    <%= p.text_field :firstname %>
+
+    <%= p.label :lastname, "Last Name: " %>
+    <%= p.text_field :lastname %>
+
+    <%= p.label :email, "Email Address: " %>
+    <%= p.email_field :email %>
+  <% end %>
+
+  <%= f.submit "Create Booking" %>
+<% end %>
