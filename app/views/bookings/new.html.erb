@@ -1,25 +1,29 @@
 <h1>New Booking</h1>
 
-<%= form_for @booking do |f| %>
+<%= form_for @booking, data: { controller: "passenger", passenger_passenger_count_value: params[:num_passengers] } do |f| %>
   <% if @booking.errors.any? %>
-    <% @booking.errors.full_messages.each do |message|%>\
+    <% @booking.errors.full_messages.each do |message|%>
     <h3><%= message %> </h3>
     <%end%>
   <%end%>
   <%= f.hidden_field :flight_id, value: params[:flight_id] %>
 
-  <%= f.fields_for :passengers do |p| %>
-    <div>
-      <%= p.label :firstname, "First Name: " %>
-      <%= p.text_field :firstname %>
+  <div data-passenger-target="passengerOutput">
+    <%= f.fields_for :passengers do |p| %>
+        <%= render "passenger_fields", :f => p %>
+    <% end %>
+  </div>
 
-      <%= p.label :lastname, "Last Name: " %>
-      <%= p.text_field :lastname %>
+  <button type="button" data-action="click->passenger#add">Add Passenger</button>
+  <button type="button" data-action="click->passenger#remove">Remove Passenger</button>
 
-      <%= p.label :email, "Email Address: " %>
-      <%= p.email_field :email %>
-    </div>
-  <% end %>
+  <template id="passenger-rows" data-passenger-target="passengerRows">
+    <div data-passenger-target="passengerInfo"> 
+      <%= f.fields_for :passengers, @booking.passengers.build, child_index: 'NEW_RECORD' do |p| %>
+        <%= render "passenger_fields", :f => p %>
+      <% end %>
+    </div> 
+  </template>
 
   <%= f.submit "Create Booking" %>
 <% end %>
